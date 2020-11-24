@@ -56,6 +56,7 @@ public class Game {
         }
 
         board.move(from, to);
+        piece.setMoved();
         nextPlayer = nextPlayer == PlayerColour.WHITE ? PlayerColour.BLACK : PlayerColour.WHITE;
     }
 

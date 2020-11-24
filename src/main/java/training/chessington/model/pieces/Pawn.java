@@ -20,6 +20,17 @@ public class Pawn extends AbstractPiece {
         Coordinates oneSpaceForward = from.plus(getForwardStep(), 0);
         allowedMoves.add(new Move(from, oneSpaceForward));
 
+        Coordinates twoSpacesForward = from.plus(2 * getForwardStep(), 0);
+        if (!hasMoved() && isInInitialRow(from))
+            allowedMoves.add(new Move(from, twoSpacesForward));
+
         return allowedMoves;
+    }
+
+    private boolean isInInitialRow(Coordinates position) {
+        if (getColour() == PlayerColour.WHITE)
+            return position.getRow() == 6;
+        else
+            return position.getRow() == 1;
     }
 }

@@ -16,4 +16,8 @@ public interface Piece {
     PlayerColour getColour();
 
     List<Move> getAllowedMoves(Coordinates from, Board board);
+    int getForwardStep();
+
+    boolean hasMoved();
+    void setMoved();
 }
