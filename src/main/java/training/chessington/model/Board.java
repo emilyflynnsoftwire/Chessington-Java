@@ -3,21 +3,19 @@ package training.chessington.model;
 import training.chessington.model.pieces.*;
 
 public class Board {
-
-    private Piece[][] board = new Piece[8][8];
+    public static final int SIZE = 8;
+    private Piece[][] board = new Piece[SIZE][SIZE];
 
     private Board() {
     }
 
     public static Board forNewGame() {
         Board board = new Board();
-        board.setBackRow(0, PlayerColour.BLACK);
-        board.setBackRow(7, PlayerColour.WHITE);
 
-        for (int col = 0; col < 8; col++) {
-            board.board[1][col] = new Pawn(PlayerColour.BLACK);
-            board.board[6][col] = new Pawn(PlayerColour.WHITE);
-        }
+        board.setBackRow(0, PlayerColour.BLACK);
+        board.setBackRow(getRowFromTop(0), PlayerColour.WHITE);
+        board.setPawnRow(1, PlayerColour.BLACK);
+        board.setPawnRow(getRowFromTop(1), PlayerColour.WHITE);
 
         return board;
     }
@@ -37,13 +35,22 @@ public class Board {
         board[rowIndex][7] = new Rook(colour);
     }
 
+    private void setPawnRow(int rowIndex, PlayerColour colour) {
+        for (int col = 0; col < Board.SIZE; col++)
+            board[rowIndex][col] = new Pawn(colour);
+    }
+
+    public static int getRowFromTop(int rowIndex) {
+        return Board.SIZE - 1 - rowIndex;
+    }
+
     public Piece get(Coordinates coords) {
         return board[coords.getRow()][coords.getCol()];
     }
 
     public boolean hasSpace(Coordinates coords) {
-        return 0 <= coords.getRow() && coords.getRow() < Game.SIZE &&
-                0 <= coords.getCol() && coords.getCol() < Game.SIZE;
+        return 0 <= coords.getRow() && coords.getRow() < Board.SIZE &&
+                0 <= coords.getCol() && coords.getCol() < Board.SIZE;
     }
 
     public boolean hasEmptySpace(Coordinates coords) {
@@ -55,11 +62,17 @@ public class Board {
     }
 
     public void move(Coordinates from, Coordinates to) {
-        board[to.getRow()][to.getCol()] = board[from.getRow()][from.getCol()];
-        board[from.getRow()][from.getCol()] = null;
+        Piece piece = get(from);
+        placePiece(to, piece);
+        emptySpace(from);
+        piece.setMoved();
     }
 
     public void placePiece(Coordinates coords, Piece piece) {
         board[coords.getRow()][coords.getCol()] = piece;
+    }
+
+    public void emptySpace(Coordinates coords) {
+        board[coords.getRow()][coords.getCol()] = null;
     }
 }

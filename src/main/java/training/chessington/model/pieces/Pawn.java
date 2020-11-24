@@ -17,25 +17,25 @@ public class Pawn extends AbstractPiece {
     public List<Move> getAllowedMoves(Coordinates from, Board board) {
         List<Move> allowedMoves = new ArrayList<>();
 
-        Coordinates oneSpaceForward = from.plus(getForwardStep(), 0);
-        if (board.hasEmptySpace(oneSpaceForward))
-            allowedMoves.add(new Move(from, oneSpaceForward));
+        Coordinates oneForward = from.plus(getForwardStep(), 0);
+        if (board.hasEmptySpace(oneForward))
+            allowedMoves.add(new Move(from, oneForward));
 
-        Coordinates twoSpacesForward = from.plus(2 * getForwardStep(), 0);
-        if (board.hasEmptySpace(twoSpacesForward) && !hasMoved() && isInInitialRow(from))
-            allowedMoves.add(new Move(from, twoSpacesForward));
+        Coordinates twoForward = from.plus(2 * getForwardStep(), 0);
+        if (board.hasEmptySpace(oneForward) && board.hasEmptySpace(twoForward) && !hasMoved() && isInStartingRow(from))
+            allowedMoves.add(new Move(from, twoForward));
 
         Coordinates[] forwardDiagonals = {from.plus(getForwardStep(), -1), from.plus(getForwardStep(), 1)};
-        for (Coordinates diagonalSpace: forwardDiagonals)
-            if (board.hasOccupiedSpace(diagonalSpace) && board.get(diagonalSpace).getColour() != this.getColour())
-                allowedMoves.add(new Move(from, diagonalSpace));
+        for (Coordinates forwardDiagonal: forwardDiagonals)
+            if (board.hasOccupiedSpace(forwardDiagonal) && board.get(forwardDiagonal).getColour() != this.getColour())
+                allowedMoves.add(new Move(from, forwardDiagonal));
 
         return allowedMoves;
     }
 
-    private boolean isInInitialRow(Coordinates position) {
+    private boolean isInStartingRow(Coordinates position) {
         if (getColour() == PlayerColour.WHITE)
-            return position.getRow() == 6;
+            return position.getRow() == Board.getRowFromTop(1);
         else
             return position.getRow() == 1;
     }

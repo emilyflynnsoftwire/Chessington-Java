@@ -152,6 +152,36 @@ public class PawnTest {
     }
 
     @Test
+    public void pawnsCannotMoveTwoSquaresIfPieceOneInFront() {
+        // Arrange
+        Board board = Board.empty();
+
+        Piece whitePawn = new Pawn(PlayerColour.WHITE);
+        Coordinates whitePawnCoords = new Coordinates(6, 3);
+        board.placePiece(whitePawnCoords, whitePawn);
+
+        Piece whiteKnight = new Knight(PlayerColour.WHITE);
+        Coordinates whiteKnightCoords = new Coordinates(5, 3);
+        board.placePiece(whiteKnightCoords, whiteKnight);
+
+        Piece blackPawn = new Pawn(PlayerColour.BLACK);
+        Coordinates blackPawnCoords = new Coordinates(1, 5);
+        board.placePiece(blackPawnCoords, blackPawn);
+
+        Piece blackKnight = new Knight(PlayerColour.BLACK);
+        Coordinates blackKnightCoords = new Coordinates(2, 5);
+        board.placePiece(blackKnightCoords, blackKnight);
+
+        // Act
+        List<Move> whitePawnMoves = whitePawn.getAllowedMoves(whitePawnCoords, board);
+        List<Move> blackPawnMoves = blackPawn.getAllowedMoves(blackPawnCoords, board);
+
+        // Assert
+        assertThat(whitePawnMoves).doesNotContain(new Move(whitePawnCoords, whitePawnCoords.plus(-2, 0)));
+        assertThat(blackPawnMoves).doesNotContain(new Move(blackPawnCoords, blackPawnCoords.plus(2, 0)));
+    }
+
+    @Test
     public void whitePawnsCannotMoveAtTopOfBoard() {
         // Arrange
         Board board = Board.empty();

@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Game {
-    public static final int SIZE = 8;
+    public static final int SIZE = Board.SIZE;
     private final Board board;
 
     private PlayerColour nextPlayer = PlayerColour.WHITE;
@@ -56,7 +56,6 @@ public class Game {
         }
 
         board.move(from, to);
-        piece.setMoved();
         nextPlayer = nextPlayer == PlayerColour.WHITE ? PlayerColour.BLACK : PlayerColour.WHITE;
     }
 
