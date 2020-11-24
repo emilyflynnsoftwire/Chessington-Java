@@ -26,4 +26,8 @@ public abstract class AbstractPiece implements Piece {
     public String toString() {
         return colour.toString() + " " + type.toString();
     }
+
+    public int getForwardStep() {
+        return (getColour() == PlayerColour.WHITE ? -1 : 1);
+    }
 }
