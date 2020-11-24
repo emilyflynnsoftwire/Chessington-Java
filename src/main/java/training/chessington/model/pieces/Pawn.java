@@ -25,6 +25,11 @@ public class Pawn extends AbstractPiece {
         if (board.hasEmptySpace(twoSpacesForward) && !hasMoved() && isInInitialRow(from))
             allowedMoves.add(new Move(from, twoSpacesForward));
 
+        Coordinates[] forwardDiagonals = {from.plus(getForwardStep(), -1), from.plus(getForwardStep(), 1)};
+        for (Coordinates diagonalSpace: forwardDiagonals)
+            if (board.hasOccupiedSpace(diagonalSpace) && board.get(diagonalSpace).getColour() != this.getColour())
+                allowedMoves.add(new Move(from, diagonalSpace));
+
         return allowedMoves;
     }
 

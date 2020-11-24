@@ -50,6 +50,10 @@ public class Board {
         return hasSpace(coords) && get(coords) == null;
     }
 
+    public boolean hasOccupiedSpace(Coordinates coords) {
+        return hasSpace(coords) && get(coords) != null;
+    }
+
     public void move(Coordinates from, Coordinates to) {
         board[to.getRow()][to.getCol()] = board[from.getRow()][from.getCol()];
         board[from.getRow()][from.getCol()] = null;
