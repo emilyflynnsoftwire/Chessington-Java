@@ -41,8 +41,13 @@ public class Board {
         return board[coords.getRow()][coords.getCol()];
     }
 
+    public boolean hasSpace(Coordinates coords) {
+        return 0 <= coords.getRow() && coords.getRow() < Game.SIZE &&
+                0 <= coords.getCol() && coords.getCol() < Game.SIZE;
+    }
+
     public boolean hasEmptySpace(Coordinates coords) {
-        return get(coords) == null;
+        return hasSpace(coords) && get(coords) == null;
     }
 
     public void move(Coordinates from, Coordinates to) {
