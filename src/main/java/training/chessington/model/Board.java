@@ -41,6 +41,10 @@ public class Board {
         return board[coords.getRow()][coords.getCol()];
     }
 
+    public boolean hasEmptySpace(Coordinates coords) {
+        return get(coords) == null;
+    }
+
     public void move(Coordinates from, Coordinates to) {
         board[to.getRow()][to.getCol()] = board[from.getRow()][from.getCol()];
         board[from.getRow()][from.getCol()] = null;

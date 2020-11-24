@@ -18,10 +18,11 @@ public class Pawn extends AbstractPiece {
         List<Move> allowedMoves = new ArrayList<>();
 
         Coordinates oneSpaceForward = from.plus(getForwardStep(), 0);
-        allowedMoves.add(new Move(from, oneSpaceForward));
+        if (board.hasEmptySpace(oneSpaceForward))
+            allowedMoves.add(new Move(from, oneSpaceForward));
 
         Coordinates twoSpacesForward = from.plus(2 * getForwardStep(), 0);
-        if (!hasMoved() && isInInitialRow(from))
+        if (board.hasEmptySpace(twoSpacesForward) && !hasMoved() && isInInitialRow(from))
             allowedMoves.add(new Move(from, twoSpacesForward));
 
         return allowedMoves;
